@@ -1,0 +1,53 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<UseWPF>true</UseWPF>
+		<PackageIcon>CommandForge.png</PackageIcon>
+		<ApplicationIcon>Resources\Icons\CommandForge.ico</ApplicationIcon>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Remove="Resources\Fonts\RobotoCondensed-Bold.ttf" />
+		<None Remove="Resources\Fonts\RobotoCondensed-BoldItalic.ttf" />
+		<None Remove="Resources\Fonts\RobotoCondensed-Italic.ttf" />
+		<None Remove="Resources\Fonts\RobotoCondensed-Light.ttf" />
+		<None Remove="Resources\Fonts\RobotoCondensed-LightItalic.ttf" />
+		<None Remove="Resources\Fonts\RobotoCondensed-Regular.ttf" />
+		<None Remove="Resources\Fonts\RobotoCondensed.zip" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Resources\Icons\CommandForge.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Views\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="Serilog" Version="3.1.1" />
+		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Resource Include="Resources\Fonts\RobotoCondensed-Regular.ttf" />
+		<Resource Include="Resources\Icons\CommandForge.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Resources\Icons\CommandForge.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
+
+	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+	  <Exec Command="xcopy /Y &quot;$(SolutionDir)\CommandForge\Config.json&quot; &quot;$(TargetDir)&quot;" />
+	</Target>
+
+</Project>
