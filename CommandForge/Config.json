@@ -4,6 +4,6 @@
     "ZmqSubscriberIPv4": "localhost",
     "ZmqSubscriberPort": 3200,
     "ZmqPublisherIPv4": "localhost",
-    "ZmqPublisherPort": 3200
+    "ZmqPublisherPort": 3300
   }
 }

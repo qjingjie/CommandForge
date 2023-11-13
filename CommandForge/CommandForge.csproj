@@ -13,7 +13,7 @@
 		<Exec ConsoleToMsBuild="true" Command="git describe --always --dirty">
 			<Output TaskParameter="ConsoleOutput" PropertyName="Revision" />
 		</Exec>
-		<AssemblyInfo CodeLanguage="CS" OutputFile="AssemblyInfo.cs" AssemblyTitle="CommandForge" ComVisible="false" AssemblyInformationalVersion="$(Revision)"/>
+		<AssemblyInfo CodeLanguage="CS" OutputFile="AssemblyInfo.cs" AssemblyTitle="CommandForge" ComVisible="false" AssemblyInformationalVersion="$(Revision)" />
 	</Target>
 
 	<ItemGroup>
@@ -31,16 +31,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Views\" />
-	</ItemGroup>
-
-	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 		<PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
 		<PackageReference Include="MSBuildTasks" Version="1.5.0.235">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="NetMQ" Version="4.0.1.13" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="Serilog" Version="3.1.1" />
 		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
@@ -57,6 +55,14 @@
 			<PackagePath>\</PackagePath>
 		</None>
 	</ItemGroup>
+
+	<Target Name="RemoveDuplicateAnalyzers" BeforeTargets="CoreCompile">
+		<ItemGroup>
+			<FilteredAnalyzer Include="@(Analyzer-&gt;Distinct())" />
+			<Analyzer Remove="@(Analyzer)" />
+			<Analyzer Include="@(FilteredAnalyzer)" />
+		</ItemGroup>
+	</Target>
 
 	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
 		<Exec Command="xcopy /Y &quot;$(SolutionDir)\CommandForge\Config.json&quot; &quot;$(TargetDir)&quot;" />

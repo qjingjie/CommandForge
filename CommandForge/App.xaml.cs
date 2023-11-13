@@ -67,10 +67,12 @@ namespace CommandForge
 
             #region Register Models
             services.AddSingleton<ConfigManager>();
+            services.AddSingleton<ZmqCommunications>();
             #endregion
 
             #region Register ViewModels
             services.AddSingleton<MainViewModel>();
+            services.AddSingleton<ZmqCommunicationsViewModel>();
             #endregion
 
             #region Register Views

@@ -5,9 +5,19 @@
     <SolidColorBrush x:Key="Gray-700" Color="#616161" />
     <SolidColorBrush x:Key="Gray-900" Color="#212121" />
 
+    <SolidColorBrush x:Key="Amber-700" Color="#FFA000" />
     <SolidColorBrush x:Key="Orange-700" Color="#F57C00" />
 
     <SolidColorBrush x:Key="BaseBgColor" Color="#101010" />
     <SolidColorBrush x:Key="DefaultBgColor" Color="#FF212121" />
     <SolidColorBrush x:Key="AlternateBgColor" Color="#FF303030" />
+
+    <SolidColorBrush x:Key="TextBoxBgColor" Color="#FF424242" />
+    <SolidColorBrush x:Key="TextBoxBorderColor" Color="#BDBDBD" />
+    <SolidColorBrush x:Key="MouseOverBorderColor" Color="#F57C00" />
+    <SolidColorBrush x:Key="DisabledFontColor" Color="#FF757575" />
+
+    <!--States-->
+    <SolidColorBrush x:Key="StateOk" Color="#00FF00" />
+    <SolidColorBrush x:Key="StateError" Color="Red" />
 </ResourceDictionary>

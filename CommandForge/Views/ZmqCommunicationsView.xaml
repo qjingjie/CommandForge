@@ -1,0 +1,414 @@
+﻿<UserControl x:Class="CommandForge.Views.ZmqCommunicationsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:validators="clr-namespace:CommandForge.Utilities.ValidationRules" xmlns:enums="clr-namespace:CommandForge.Enums" mc:Ignorable="d" FontFamily="{StaticResource RobotoCondensed}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!--Header-->
+        <Border Grid.Row="0" Background="{StaticResource Orange-700}" HorizontalAlignment="Left" CornerRadius="10 10 0 0" Margin="10 0 0 0">
+            <TextBlock Text="ZeroMQ" FontSize="{StaticResource Heading2}" Foreground="{StaticResource BaseBgColor}" Margin="20 5 20 5" />
+        </Border>
+
+        <materialDesign:Card Grid.Row="1" Background="{StaticResource AlternateBgColor}" UniformCornerRadius="10" HorizontalAlignment="Stretch">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!--Subscriber-->
+                <StackPanel Grid.Row="0" Margin="10">
+                    <Grid Margin="0 0 0 20">
+
+                        <TextBlock Text="Subscriber" Foreground="{StaticResource Gray-400}" FontSize="{StaticResource Heading1}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0 0 5 0" />
+
+                        <!--Status-->
+                        <Border Width="150" Height="30" Background="{StaticResource BaseBgColor}" CornerRadius="5" VerticalAlignment="Center" HorizontalAlignment="Right">
+                            <TextBlock Text="{Binding SubscriberStatus}" FontSize="{StaticResource Heading2}" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding SubscriberStatus}" Value="{x:Static enums:ZmqStatus.OFF}">
+                                                <Setter Property="Foreground" Value="{StaticResource Gray-400}" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding SubscriberStatus}" Value="{x:Static enums:ZmqStatus.CONNECTED}">
+                                                <Setter Property="Foreground" Value="{StaticResource StateOk}" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding SubscriberStatus}" Value="{x:Static enums:ZmqStatus.BOUND}">
+                                                <Setter Property="Foreground" Value="{StaticResource StateOk}" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding SubscriberStatus}" Value="{x:Static enums:ZmqStatus.ERROR}">
+                                                <Setter Property="Foreground" Value="{StaticResource StateError}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Border>
+                    </Grid>
+
+                    <StackPanel Orientation="Horizontal">
+                        <!--IP Address-->
+                        <StackPanel Margin="0 0 5 5">
+                            <TextBlock Text="IP Address" Foreground="{StaticResource Gray-400}" FontSize="{StaticResource Heading2}" Margin="5 0 0 2" />
+                            <TextBox Width="200" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" FontSize="{StaticResource Heading2}">
+                                <TextBox.Style>
+                                    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource DefaultTextBox}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding SubscriberStatus}" Value="{x:Static enums:ZmqStatus.OFF}">
+                                                <Setter Property="IsReadOnly" Value="False" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding SubscriberStatus}" Value="{x:Static enums:ZmqStatus.CONNECTED}">
+                                                <Setter Property="IsReadOnly" Value="True" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding SubscriberStatus}" Value="{x:Static enums:ZmqStatus.BOUND}">
+                                                <Setter Property="IsReadOnly" Value="True" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding SubscriberStatus}" Value="{x:Static enums:ZmqStatus.ERROR}">
+                                                <Setter Property="IsReadOnly" Value="False" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+
+                                <TextBox.Text>
+                                    <Binding Path="SubscriberIpv4" UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <validators:Ipv4Rule ValidatesOnTargetUpdated="True" />
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+                        </StackPanel>
+
+                        <!--Port-->
+                        <StackPanel Margin="0 0 0 5">
+                            <TextBlock Text="Port" Foreground="{StaticResource Gray-400}" FontSize="{StaticResource Heading2}" Margin="5 0 0 2" />
+                            <TextBox Width="150" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" FontSize="{StaticResource Heading2}">
+                                <TextBox.Style>
+                                    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource DefaultTextBox}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding SubscriberStatus}" Value="{x:Static enums:ZmqStatus.OFF}">
+                                                <Setter Property="IsReadOnly" Value="False" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding SubscriberStatus}" Value="{x:Static enums:ZmqStatus.CONNECTED}">
+                                                <Setter Property="IsReadOnly" Value="True" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding SubscriberStatus}" Value="{x:Static enums:ZmqStatus.BOUND}">
+                                                <Setter Property="IsReadOnly" Value="True" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding SubscriberStatus}" Value="{x:Static enums:ZmqStatus.ERROR}">
+                                                <Setter Property="IsReadOnly" Value="False" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+
+                                <TextBox.Text>
+                                    <Binding Path="SubscriberPort" UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <validators:PortRule ValidatesOnTargetUpdated="True" />
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!--Controls-->
+                    <Grid Margin="0 5 0 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Button Grid.Column="0" Content="Connect" Command="{Binding SubscriberConfigurationCommand}" CommandParameter="connect">
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource DefaultButton}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding SubscriberStatus}" Value="{x:Static enums:ZmqStatus.OFF}">
+                                            <Setter Property="IsEnabled" Value="True" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding SubscriberStatus}" Value="{x:Static enums:ZmqStatus.CONNECTED}">
+                                            <Setter Property="IsEnabled" Value="False" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding SubscriberStatus}" Value="{x:Static enums:ZmqStatus.BOUND}">
+                                            <Setter Property="IsEnabled" Value="False" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding SubscriberStatus}" Value="{x:Static enums:ZmqStatus.ERROR}">
+                                            <Setter Property="IsEnabled" Value="True" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                        <Button Grid.Column="2" Content="Disconnect" Command="{Binding SubscriberConfigurationCommand}" CommandParameter="disconnect">
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource DefaultButton}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding SubscriberStatus}" Value="{x:Static enums:ZmqStatus.OFF}">
+                                            <Setter Property="IsEnabled" Value="False" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding SubscriberStatus}" Value="{x:Static enums:ZmqStatus.CONNECTED}">
+                                            <Setter Property="IsEnabled" Value="True" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding SubscriberStatus}" Value="{x:Static enums:ZmqStatus.BOUND}">
+                                            <Setter Property="IsEnabled" Value="False" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding SubscriberStatus}" Value="{x:Static enums:ZmqStatus.ERROR}">
+                                            <Setter Property="IsEnabled" Value="True" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                        <Button Grid.Column="4" Content="Bind" Command="{Binding SubscriberConfigurationCommand}" CommandParameter="bind">
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource DefaultButton}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding SubscriberStatus}" Value="{x:Static enums:ZmqStatus.OFF}">
+                                            <Setter Property="IsEnabled" Value="True" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding SubscriberStatus}" Value="{x:Static enums:ZmqStatus.CONNECTED}">
+                                            <Setter Property="IsEnabled" Value="False" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding SubscriberStatus}" Value="{x:Static enums:ZmqStatus.BOUND}">
+                                            <Setter Property="IsEnabled" Value="False" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding SubscriberStatus}" Value="{x:Static enums:ZmqStatus.ERROR}">
+                                            <Setter Property="IsEnabled" Value="True" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                        <Button Grid.Column="6" Content="Unbind" Command="{Binding SubscriberConfigurationCommand}" CommandParameter="unbind">
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource DefaultButton}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding SubscriberStatus}" Value="{x:Static enums:ZmqStatus.OFF}">
+                                            <Setter Property="IsEnabled" Value="False" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding SubscriberStatus}" Value="{x:Static enums:ZmqStatus.CONNECTED}">
+                                            <Setter Property="IsEnabled" Value="False" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding SubscriberStatus}" Value="{x:Static enums:ZmqStatus.BOUND}">
+                                            <Setter Property="IsEnabled" Value="True" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding SubscriberStatus}" Value="{x:Static enums:ZmqStatus.ERROR}">
+                                            <Setter Property="IsEnabled" Value="True" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </Grid>
+                </StackPanel>
+
+                <!--Divider-->
+                <Border Grid.Row="1" BorderBrush="{StaticResource Gray-400}" BorderThickness="0 2 0 0" Margin="10 0 10 0" />
+
+                <!--Publisher-->
+                <StackPanel Grid.Row="2" Margin="10">
+                    <Grid Margin="0 0 0 20">
+
+                        <TextBlock Text="Publisher" Foreground="{StaticResource Gray-400}" FontSize="{StaticResource Heading1}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0 0 5 0" />
+
+                        <!--Status-->
+                        <Border Width="150" Height="30" Background="{StaticResource BaseBgColor}" CornerRadius="5" VerticalAlignment="Center" HorizontalAlignment="Right">
+                            <TextBlock Text="{Binding PublisherStatus}" FontSize="{StaticResource Heading2}" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding PublisherStatus}" Value="{x:Static enums:ZmqStatus.OFF}">
+                                                <Setter Property="Foreground" Value="{StaticResource Gray-400}" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding PublisherStatus}" Value="{x:Static enums:ZmqStatus.CONNECTED}">
+                                                <Setter Property="Foreground" Value="{StaticResource StateOk}" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding PublisherStatus}" Value="{x:Static enums:ZmqStatus.BOUND}">
+                                                <Setter Property="Foreground" Value="{StaticResource StateOk}" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding PublisherStatus}" Value="{x:Static enums:ZmqStatus.ERROR}">
+                                                <Setter Property="Foreground" Value="{StaticResource StateError}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Border>
+                    </Grid>
+
+                    <StackPanel Orientation="Horizontal">
+                        <!--IP Address-->
+                        <StackPanel Margin="0 0 5 5">
+                            <TextBlock Text="IP Address" Foreground="{StaticResource Gray-400}" FontSize="{StaticResource Heading2}" Margin="5 0 0 2" />
+                            <TextBox Width="200" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" FontSize="{StaticResource Heading2}">
+                                <TextBox.Style>
+                                    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource DefaultTextBox}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding PublisherStatus}" Value="{x:Static enums:ZmqStatus.OFF}">
+                                                <Setter Property="IsReadOnly" Value="False" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding PublisherStatus}" Value="{x:Static enums:ZmqStatus.CONNECTED}">
+                                                <Setter Property="IsReadOnly" Value="True" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding PublisherStatus}" Value="{x:Static enums:ZmqStatus.BOUND}">
+                                                <Setter Property="IsReadOnly" Value="True" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding PublisherStatus}" Value="{x:Static enums:ZmqStatus.ERROR}">
+                                                <Setter Property="IsReadOnly" Value="False" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+
+                                <TextBox.Text>
+                                    <Binding Path="PublisherIpv4" UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <validators:Ipv4Rule ValidatesOnTargetUpdated="True" />
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+                        </StackPanel>
+
+                        <!--Port-->
+                        <StackPanel Margin="0 0 0 5">
+                            <TextBlock Text="Port" Foreground="{StaticResource Gray-400}" FontSize="{StaticResource Heading2}" Margin="5 0 0 2" />
+                            <TextBox Width="150" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" FontSize="{StaticResource Heading2}">
+                                <TextBox.Style>
+                                    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource DefaultTextBox}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding PublisherStatus}" Value="{x:Static enums:ZmqStatus.OFF}">
+                                                <Setter Property="IsReadOnly" Value="False" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding PublisherStatus}" Value="{x:Static enums:ZmqStatus.CONNECTED}">
+                                                <Setter Property="IsReadOnly" Value="True" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding PublisherStatus}" Value="{x:Static enums:ZmqStatus.BOUND}">
+                                                <Setter Property="IsReadOnly" Value="True" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding PublisherStatus}" Value="{x:Static enums:ZmqStatus.ERROR}">
+                                                <Setter Property="IsReadOnly" Value="False" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+
+                                <TextBox.Text>
+                                    <Binding Path="PublisherPort" UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <validators:PortRule ValidatesOnTargetUpdated="True" />
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!--Controls-->
+                    <Grid Margin="0 5 0 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Button Grid.Column="0" Content="Connect" Command="{Binding PublisherConfigurationCommand}" CommandParameter="connect">
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource DefaultButton}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding PublisherStatus}" Value="{x:Static enums:ZmqStatus.OFF}">
+                                            <Setter Property="IsEnabled" Value="True" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding PublisherStatus}" Value="{x:Static enums:ZmqStatus.CONNECTED}">
+                                            <Setter Property="IsEnabled" Value="False" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding PublisherStatus}" Value="{x:Static enums:ZmqStatus.BOUND}">
+                                            <Setter Property="IsEnabled" Value="False" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding PublisherStatus}" Value="{x:Static enums:ZmqStatus.ERROR}">
+                                            <Setter Property="IsEnabled" Value="True" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                        <Button Grid.Column="2" Content="Disconnect" Command="{Binding PublisherConfigurationCommand}" CommandParameter="disconnect">
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource DefaultButton}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding PublisherStatus}" Value="{x:Static enums:ZmqStatus.OFF}">
+                                            <Setter Property="IsEnabled" Value="False" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding PublisherStatus}" Value="{x:Static enums:ZmqStatus.CONNECTED}">
+                                            <Setter Property="IsEnabled" Value="True" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding PublisherStatus}" Value="{x:Static enums:ZmqStatus.BOUND}">
+                                            <Setter Property="IsEnabled" Value="False" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding PublisherStatus}" Value="{x:Static enums:ZmqStatus.ERROR}">
+                                            <Setter Property="IsEnabled" Value="True" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                        <Button Grid.Column="4" Content="Bind" Command="{Binding PublisherConfigurationCommand}" CommandParameter="bind">
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource DefaultButton}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding PublisherStatus}" Value="{x:Static enums:ZmqStatus.OFF}">
+                                            <Setter Property="IsEnabled" Value="True" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding PublisherStatus}" Value="{x:Static enums:ZmqStatus.CONNECTED}">
+                                            <Setter Property="IsEnabled" Value="False" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding PublisherStatus}" Value="{x:Static enums:ZmqStatus.BOUND}">
+                                            <Setter Property="IsEnabled" Value="False" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding PublisherStatus}" Value="{x:Static enums:ZmqStatus.ERROR}">
+                                            <Setter Property="IsEnabled" Value="True" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                        <Button Grid.Column="6" Content="Unbind" Command="{Binding PublisherConfigurationCommand}" CommandParameter="unbind">
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource DefaultButton}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding PublisherStatus}" Value="{x:Static enums:ZmqStatus.OFF}">
+                                            <Setter Property="IsEnabled" Value="False" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding PublisherStatus}" Value="{x:Static enums:ZmqStatus.CONNECTED}">
+                                            <Setter Property="IsEnabled" Value="False" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding PublisherStatus}" Value="{x:Static enums:ZmqStatus.BOUND}">
+                                            <Setter Property="IsEnabled" Value="True" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding PublisherStatus}" Value="{x:Static enums:ZmqStatus.ERROR}">
+                                            <Setter Property="IsEnabled" Value="True" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </materialDesign:Card>
+    </Grid>
+</UserControl>
