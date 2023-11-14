@@ -7,6 +7,7 @@
 		<PackageIcon>CommandForge.png</PackageIcon>
 		<ApplicationIcon>Resources\Icons\CommandForge.ico</ApplicationIcon>
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+		<IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
 	</PropertyGroup>
 
 	<ItemGroup>
