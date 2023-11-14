@@ -26,9 +26,8 @@ namespace CommandForge.Models
         /// Load configuration file - If the file does not exist, a new configuration file named "Config.json" will be created.
         /// </summary>
         /// <param name="fileName"></param>
-        /// <param name="defaultConfigPath"></param>
-        /// <returns></returns>
-        public bool LoadConfig(string fileName, string defaultConfigPath)
+        /// <returns>True is successfully loaded configuration file, False otherwise</returns>
+        public bool LoadConfig(string fileName)
         {
             string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                                            "CommandForge",
@@ -49,7 +48,7 @@ namespace CommandForge.Models
             }
             else
             {
-                Config = JsonConvert.DeserializeObject<ConfigFile>(File.ReadAllText(Path.Combine(defaultConfigPath, "Config.json")));
+                Config = GenerateDefaultConfig();
                 File.WriteAllText(filePath, JsonConvert.SerializeObject(Config, Formatting.Indented));
                 isCreated = true;
             }
@@ -68,6 +67,22 @@ namespace CommandForge.Models
                                            fileName + ".json");
 
             File.WriteAllText(filePath, JsonConvert.SerializeObject(Config, Formatting.Indented));
+        }
+
+        /// <summary>
+        /// Generate a default configuration file.
+        /// </summary>
+        /// <returns>A default configuration file</returns>
+        private static ConfigFile GenerateDefaultConfig()
+        {
+            ConfigFile config = new ConfigFile();
+            config.Defaults.EnableLogging = false;
+            config.Defaults.ZmqSubscriberIPv4 = "localhost";
+            config.Defaults.ZmqSubscriberPort = 3200;
+            config.Defaults.ZmqPublisherIPv4 = "localhost";
+            config.Defaults.ZmqPublisherPort = 3300;
+
+            return config;
         }
         #endregion
     }

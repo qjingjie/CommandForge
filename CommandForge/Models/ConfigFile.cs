@@ -5,9 +5,9 @@ namespace CommandForge.Models
     public class ConfigFile
     {
         [JsonProperty(Required = Required.Always)]
-        public Default Defaults { get; set; }
+        public Default Defaults { get; set; } = new Default();
 
-        public struct Default
+        public class Default
         {
             [JsonProperty(Required = Required.Always)]
             public bool EnableLogging { get; set; }

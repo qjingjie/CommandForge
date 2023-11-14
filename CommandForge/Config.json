@@ -1,9 +1,0 @@
-{
-  "Defaults": {
-    "EnableLogging": false,
-    "ZmqSubscriberIPv4": "localhost",
-    "ZmqSubscriberPort": 3200,
-    "ZmqPublisherIPv4": "localhost",
-    "ZmqPublisherPort": 3300
-  }
-}

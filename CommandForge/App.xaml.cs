@@ -2,6 +2,7 @@
 using CommandForge.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
+using Serilog.Events;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -109,7 +110,7 @@ namespace CommandForge
 
             try
             {
-                configuration.LoadConfig("Config", Environment.CurrentDirectory);
+                configuration.LoadConfig("Config");
             }
             catch (Exception e)
             {
@@ -119,16 +120,19 @@ namespace CommandForge
 
             // Setup serilog
             Log.Logger = new LoggerConfiguration()
+                .WriteTo.Logger(l => l
+                .Filter.ByIncludingOnly(e => e.Level == LogEventLevel.Fatal)
                 .WriteTo.File(exceptionLogPath,
                               rollingInterval: RollingInterval.Hour,
-                              restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Fatal,
                               outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level}] {Message:lj}{Newline}{Exception}",
-                              retainedFileCountLimit: null)
+                              retainedFileCountLimit: null))
+
+                .WriteTo.Logger(l => l
+                .Filter.ByExcluding(e => e.Level == LogEventLevel.Fatal)
                 .WriteTo.File(defaultLogPath,
                               rollingInterval: RollingInterval.Hour,
-                              restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Error,
                               outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level}] {Message:lj}{Newline}{Exception}",
-                              retainedFileCountLimit: null)
+                              retainedFileCountLimit: null))
                 .CreateLogger();
 
             if (configError)
