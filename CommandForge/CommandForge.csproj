@@ -11,6 +11,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<None Remove="Resources\Fonts\RobotoCondensed-Bold.ttf" />
 		<None Remove="Resources\Fonts\RobotoCondensed-Regular.ttf" />
 	</ItemGroup>
 
@@ -29,6 +30,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Resource Include="Resources\Fonts\RobotoCondensed-Bold.ttf" />
 		<Resource Include="Resources\Fonts\RobotoCondensed-Regular.ttf" />
 		<Resource Include="Resources\Icons\CommandForge.png" />
 	</ItemGroup>

@@ -1,0 +1,71 @@
+﻿<UserControl x:Class="CommandForge.Views.ZmqSubscriberTopicListViewModel" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" mc:Ignorable="d">
+    <materialDesign:Card Background="{StaticResource AlternateBgColor}" UniformCornerRadius="10" HorizontalAlignment="Stretch">
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!--Header-->
+            <Border Grid.Row="0" Height="35" BorderBrush="{StaticResource Orange-700}" BorderThickness="0 0 0 2">
+                <TextBlock Grid.Column="0" Text="ZeroMQ - Available Subscriber Topics" FontFamily="{StaticResource RobotoCondensedBold}" FontSize="{StaticResource Heading1}" Foreground="{StaticResource Gray-50}" VerticalAlignment="Center" />
+            </Border>
+
+            <!--Interfaces-->
+            <materialDesign:Card Grid.Row="1" Background="{StaticResource DefaultBgColor}" Margin="0 10 0 0">
+                <ItemsControl ItemsSource="{Binding SubscriberInterfaceList}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border CornerRadius="5" Background="{StaticResource DefaultBgColor}">
+                                <Expander HorizontalAlignment="Stretch" Header="{Binding InterfaceName}" Foreground="{StaticResource Gray-400}">
+                                    <StackPanel Background="{StaticResource AlternateBgColor}">
+                                        <ItemsControl ItemsSource="{Binding Topics}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <!--Topics And Toggles-->
+                                                    <Border BorderBrush="{StaticResource DefaultBgColor}" BorderThickness="0 1 0 0">
+                                                        <Grid Margin="10">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="Auto" />
+                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="Auto" />
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <TextBlock Grid.Column="0" Text="{Binding TopicName}" Foreground="{StaticResource Gray-50}" FontSize="{StaticResource Body1}" />
+                                                            <ToggleButton Grid.Column="2" Style="{StaticResource MaterialDesignSwitchToggleButton}" Background="{StaticResource Gray-50}" IsChecked="{Binding IsSubscribed}" IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type materialDesign:Card}}, Path=DataContext.IsToggleButtonsEnabled}" Cursor="Hand">
+                                                                <materialDesign:ToggleButtonAssist.SwitchTrackOnBackground>
+                                                                    <SolidColorBrush Color="#00FF00" />
+                                                                </materialDesign:ToggleButtonAssist.SwitchTrackOnBackground>
+                                                                <materialDesign:ToggleButtonAssist.SwitchTrackOffBackground>
+                                                                    <SolidColorBrush Color="#FF757575" />
+                                                                </materialDesign:ToggleButtonAssist.SwitchTrackOffBackground>
+                                                            </ToggleButton>
+                                                        </Grid>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+
+                                        <!--Subscribe / Unsubscribe All Buttons-->
+                                        <Border BorderBrush="{StaticResource DefaultBgColor}" BorderThickness="0 1 0 0">
+                                            <Grid Margin="10">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="5" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <Button Grid.Column="0" Style="{StaticResource DefaultButton}" Content="Subscribe All" Command="{Binding SubscribeAllCommand}" IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type materialDesign:Card}}, Path=DataContext.IsToggleButtonsEnabled}" />
+                                                <Button Grid.Column="2" Style="{StaticResource DefaultButton}" Content="Unsubscribe All" Command="{Binding UnsubscribeAllCommand}" IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type materialDesign:Card}}, Path=DataContext.IsToggleButtonsEnabled}" />
+                                            </Grid>
+                                        </Border>
+                                    </StackPanel>
+                                </Expander>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </materialDesign:Card>
+        </Grid>
+    </materialDesign:Card>
+</UserControl>

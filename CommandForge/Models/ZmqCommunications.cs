@@ -1,6 +1,7 @@
 ﻿using CommandForge.Enums;
 using NetMQ;
 using NetMQ.Sockets;
+using System;
 using System.Collections.Concurrent;
 using System.Text;
 using System.Threading;
@@ -13,11 +14,28 @@ namespace CommandForge.Models
         private SubscriberSocket _subscriber;
         private PublisherSocket _publisher;
         private ConcurrentQueue<ZmqMessage> _sendQueue;
+
+        private ZmqStatus _subscriberStatus;
+        private ZmqStatus _publisherStatus;
         #endregion
 
         #region Constructor
         public ZmqCommunications()
         {
+        }
+        #endregion
+
+        #region Properties
+        public ZmqStatus SubscriberStatus
+        {
+            get => _subscriberStatus;
+            set { _subscriberStatus = value; OnZmqSubscriberStatusChangeEvent?.Invoke(value); }
+        }
+
+        public ZmqStatus PublisherStatus
+        {
+            get => _publisherStatus;
+            set { _publisherStatus = value; OnZmqPublisherStatusChangeEvent?.Invoke(value); }
         }
         #endregion
 
@@ -240,6 +258,11 @@ namespace CommandForge.Models
                 Thread.Sleep(1);
             }
         }
+        #endregion
+
+        #region Events
+        public event Action<ZmqStatus> OnZmqSubscriberStatusChangeEvent;
+        public event Action<ZmqStatus> OnZmqPublisherStatusChangeEvent;
         #endregion
     }
 }

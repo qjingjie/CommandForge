@@ -74,6 +74,7 @@ namespace CommandForge
             #region Register ViewModels
             services.AddSingleton<MainViewModel>();
             services.AddSingleton<ZmqCommunicationsViewModel>();
+            services.AddSingleton<ZmqSubscriberTopicListViewModel>();
             #endregion
 
             #region Register Views

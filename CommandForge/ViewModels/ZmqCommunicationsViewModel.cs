@@ -29,6 +29,9 @@ namespace CommandForge.ViewModels
             PublisherIpv4 = _configFile.Defaults.ZmqPublisherIPv4;
             PublisherPort = _configFile.Defaults.ZmqPublisherPort.ToString();
             PublisherStatus = ZmqStatus.OFF;
+
+            _zmqCommunications.OnZmqSubscriberStatusChangeEvent += (status) => { SubscriberStatus = status; };
+            _zmqCommunications.OnZmqPublisherStatusChangeEvent += (status) => { PublisherStatus = status; };
         }
         #endregion
 
@@ -92,19 +95,19 @@ namespace CommandForge.ViewModels
             switch (configure)
             {
                 case ZmqConfiguration.connect:
-                    SubscriberStatus = isSuccess ? ZmqStatus.CONNECTED : ZmqStatus.ERROR;
+                    _zmqCommunications.SubscriberStatus = isSuccess ? ZmqStatus.CONNECTED : ZmqStatus.ERROR;
                     break;
 
                 case ZmqConfiguration.disconnect:
-                    SubscriberStatus = isSuccess ? ZmqStatus.OFF : ZmqStatus.ERROR;
+                    _zmqCommunications.SubscriberStatus = isSuccess ? ZmqStatus.OFF : ZmqStatus.ERROR;
                     break;
 
                 case ZmqConfiguration.bind:
-                    SubscriberStatus = isSuccess ? ZmqStatus.BOUND : ZmqStatus.ERROR;
+                    _zmqCommunications.SubscriberStatus = isSuccess ? ZmqStatus.BOUND : ZmqStatus.ERROR;
                     break;
 
                 case ZmqConfiguration.unbind:
-                    SubscriberStatus = isSuccess ? ZmqStatus.OFF : ZmqStatus.ERROR;
+                    _zmqCommunications.SubscriberStatus = isSuccess ? ZmqStatus.OFF : ZmqStatus.ERROR;
                     break;
 
                 default:
@@ -123,19 +126,19 @@ namespace CommandForge.ViewModels
             switch (configure)
             {
                 case ZmqConfiguration.connect:
-                    PublisherStatus = isSuccess ? ZmqStatus.CONNECTED : ZmqStatus.ERROR;
+                    _zmqCommunications.PublisherStatus = isSuccess ? ZmqStatus.CONNECTED : ZmqStatus.ERROR;
                     break;
 
                 case ZmqConfiguration.disconnect:
-                    PublisherStatus = isSuccess ? ZmqStatus.OFF : ZmqStatus.ERROR;
+                    _zmqCommunications.PublisherStatus = isSuccess ? ZmqStatus.OFF : ZmqStatus.ERROR;
                     break;
 
                 case ZmqConfiguration.bind:
-                    PublisherStatus = isSuccess ? ZmqStatus.BOUND : ZmqStatus.ERROR;
+                    _zmqCommunications.PublisherStatus = isSuccess ? ZmqStatus.BOUND : ZmqStatus.ERROR;
                     break;
 
                 case ZmqConfiguration.unbind:
-                    PublisherStatus = isSuccess ? ZmqStatus.OFF : ZmqStatus.ERROR;
+                    _zmqCommunications.PublisherStatus = isSuccess ? ZmqStatus.OFF : ZmqStatus.ERROR;
                     break;
 
                 default:

@@ -32,8 +32,8 @@
                     <!--Logo and Title-->
                     <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="10 0 0 0">
                         <Image Source="./Resources/Icons/CommandForge.png" />
-                        <TextBlock Text="Command" FontSize="{StaticResource Title}" Foreground="{StaticResource Gray-50}" VerticalAlignment="Center" />
-                        <TextBlock Text="Forge" FontSize="{StaticResource Title}" Foreground="{StaticResource Orange-700}" VerticalAlignment="Center" />
+                        <TextBlock Text="Command" FontFamily="{StaticResource RobotoCondensedBold}" FontSize="{StaticResource Title}" Foreground="{StaticResource Gray-50}" VerticalAlignment="Center" />
+                        <TextBlock Text="Forge" FontFamily="{StaticResource RobotoCondensedBold}" FontSize="{StaticResource Title}" Foreground="{StaticResource Orange-700}" VerticalAlignment="Center" />
                     </StackPanel>
 
                     <!--Minimize Button-->
@@ -75,6 +75,7 @@
                             </Grid.RowDefinitions>
 
                             <views:ZmqCommunicationsView Grid.Row="0" DataContext="{Binding ZmqCommunicationsViewModel}" />
+                            <views:ZmqSubscriberTopicListViewModel Grid.Row="2" DataContext="{Binding ZmqSubscriberTopicListViewModel}" />
                         </Grid>
                     </Grid>
                 </ScrollViewer>
